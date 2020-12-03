@@ -68,7 +68,7 @@ def continuing():
 	else:
 		continuing()	
 
-def saving():
+def saving(df=df):
 	new_row = pd.DataFrame(data=[{"player" : player_name,
                              "score" : score}])
 	df = df.append(new_row)
