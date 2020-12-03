@@ -8,10 +8,20 @@ import pandas as pd
 #integrer les sauvegardes au bons endroits.
 #faire une fonction nouvelle partie
 
+#base de donnée
+try:
+	df = pd.read_csv("scores_bonneteau.csv")	  
+except:
+	df = pd.DataFrame(columns = [
+    "player",
+    "score"]).to_csv("scores_bonneteau.csv", index=False)
+df = pd.read_csv("scores_bonneteau.csv")
+
 #variables
 gob = 3
 score = 0
 choice = 0
+best_score = 0
 keep_playing = True
 
 #fonctions	
@@ -38,9 +48,31 @@ def continuing():
 		return keep_playing	
 	elif continue_game in ["no", "No", "False", "false","N", "n", "non", "Non"]:
 		keep_playing = False
-		return keep_playing		
+		return keep_playing	
+	elif continue_game == "easter egg":
+		os.system('clear')
+		a = 1
+		while a < 1200:
+			print("vous êtes mauvais", (1201 - a))
+			sleep(1)
+			a = a + 1
+		continuing()
+	elif continue_game in ["?", "help", "HELP", "Help"]:
+		print("entrez oui ou non pour continuer ou non la partie")
+		print("entrez easter egg pour une surprise")
+		print("entrez save pour sauvegarder votre score actuel")
+		continuing()
+	elif continue_game	== "save":
+		saving()
+		continuing()
 	else:
 		continuing()	
+
+def saving():
+	new_row = pd.DataFrame(data=[{"player" : player_name,
+                             "score" : score}])
+	df = df.append(new_row)
+	df.to_csv("scores_bonneteau.csv", index=False)
 
 def result(choice, winning):
 	if winning == choice:
@@ -52,11 +84,15 @@ def result(choice, winning):
 
 #deroulement
 title_screen()
+os.system('clear')
+player_name = input("Qui es-tu ? ")
+
 while keep_playing:
 	os.system('clear')
 	winning = random.randint(1, gob)
 	choice = int(input(f"choisis entre 1 et {gob} : "))
 	choice_good = False
+	
 	while choice_good ==False:
 		if 0<choice <= gob:
 			player_win = result(choice, winning)
@@ -73,18 +109,23 @@ while keep_playing:
 		print("vous avez perdu")
 		print("score = ", score)
 		print("le bon numéro était : ",winning)
-	
-		a = 1
-		while a <= 1200:
-			print('vous êtes mauvais', 1200 - a)
-			time.sleep(1)
-			a=a+1
-
-		keep_playing = False
+		if best_score < score:
+				best_score = score
+		score = 0
+		keep_playing = continuing()
 	elif player_win == True:
 		score += 100
 		gob += 1
+		print("BRAVO !")
 		print("score = ", score)
+		saving()
 		keep_playing = continuing()
-		if keep_playing == False:
-			break
+	if keep_playing == False:
+		if best_score < score:
+			best_score = score
+		saving()
+		os.system('clear')
+		print("bye bye")
+		print("Votre score était = ", score)
+		print("Meilleur score = ",best_score)
+		break
