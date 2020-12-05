@@ -11,7 +11,10 @@ max_cups = 3
 print("Pret a tester ta chance ?? (งツ)ว \n \n ")
 oui_oui_oui = ["O", "Oui", "OUI", "oui", "Y", "YES", "Yes", "y", "yes", "o", " o"]
 non_non_non = ["N", "Non", "NON", "non", "n", "NO", "No", "no", " n", " non"]
-
+victory = ["＼(＾▽＾)／", "٩(◕‿◕｡)۶ ", "(b ᵔ▽ᵔ)b", "(⁀ᗢ⁀)","￢‿￢ )", "ヽ(°〇°)ﾉ", "♥‿♥","(◠﹏◠)"]
+la_max = ["(っ▀¯▀)つ","ᕦ(ò_óˇ)ᕤ", "ヽ(´▽｀)ノ”", "\\(ᵔᵕᵔ)/", "(•̀ᴗ•́)و", "＼(≧▽≦)／","ヽ(´ー｀)ノ"]
+la_lose = ["ƪ(ړײ)‎ƪ​​","¿ⓧ_ⓧﮌ", "¯\\_(⊙︿⊙)_/¯ "]
+raillerie = ["ahaahahahahah", "huhuhu", "Mouahahaahah", "Vraiment ?", "0 + 0 = toi", "mouais"]
 
 #jouer au jeu
 while keep_playing:
@@ -39,17 +42,21 @@ while keep_playing:
 	
 	#Player result, did he guess right ?? 
 	if choix == hidden_ball:
-		print(f"Wouah tu as trouvé le bon chiffre qui était {choix}. Bravo\n")
+		hap = random.choice(victory)
+		print("\n", hap, "\n")
 		max_cups += 1
 		bank +=  1
 	elif choix != hidden_ball:
-		print(f"Dommage, la balle était sous le {hidden_ball}\n")
+		too_bad = random.choice(la_lose)
+		curse = random.choice(raillerie)
+		champion = random.choice(la_max)
+		print(f"Et non, fallait choisir {hidden_ball}\n")
 		if bank == 0:
-			print("Ahahaahahahahah  ƪ(ړײ)‎ƪ​​ \n")
+			print(curse, "    ", too_bad, "\n")
 		elif bank == 1:
 			print("chanceux à moitié on va dire ¯\\_(ツ)_/¯\n")
 		else:
-			print(f"Tu as trouvé {bank} fois d'affilés. (っ▀¯▀)つ clap clap  \n")
+			print(f"{bank} fois d'affilés    ", champion,"  \n")
 		max_cups = 3 
 		bank = 0
 
